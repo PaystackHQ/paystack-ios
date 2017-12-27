@@ -13,7 +13,7 @@
 
 + (void)loadCategories {
     linkDictionaryCategory();
-    linkUIImageCategory();
+    linkUIImageCategoryPaystack();
 }
 
 @end

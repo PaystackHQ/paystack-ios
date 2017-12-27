@@ -93,4 +93,4 @@
 
 @end
 
-void linkUIImageCategory(void){}
+void linkUIImageCategoryPaystack(void){}
