@@ -11,6 +11,13 @@
 static NSString *const __nonnull PSTCKSDKVersion = @"3.0.4";
 static NSString *const __nonnull PSTCKSDKBuild = @"13";
 
+typedef NS_ENUM(NSInteger, PSTCKChargeRequestAlerts) {
+    PSTCKChargeRequestAlertsPaystack,
+    PSTCKChargeRequestAlertsCustomPin,
+    PSTCKChargeRequestAlertsCustomOtp,
+    PSTCKChargeRequestAlertsCustomAlerts
+};
+
 @class PSTCKCard, PSTCKCardParams, PSTCKTransactionParams, PSTCKToken;
 
 /**
@@ -21,7 +28,15 @@ static NSString *const __nonnull PSTCKSDKBuild = @"13";
  */
 typedef void (^PSTCKErrorCompletionBlock)(NSError * __nonnull error, NSString * __nullable reference);
 typedef void (^PSTCKTransactionCompletionBlock)(NSString * __nonnull reference);
+typedef void (^PSTCKChargeRequestCompletionBlock)(NSString * __nonnull reference);
 typedef void (^PSTCKNotifyCompletionBlock)(void);
+
+@protocol PSTCKChargeDelegate <NSObject>
+
+- (void)PSTCKCustomPinMethodWith:(PSTCKChargeRequestCompletionBlock )completion;
+- (void)PSTCKCustomOtpMethodWith:(PSTCKChargeRequestCompletionBlock )completion;
+
+@end
 
 /**
  A top-level class that imports the rest of the Paystack SDK. This class used to contain several methods to create Paystack tokens, but those are now deprecated in
@@ -44,6 +59,11 @@ typedef void (^PSTCKNotifyCompletionBlock)(void);
 
 /// A client for making connections to the Paystack API.
 @interface PSTCKAPIClient : NSObject
+
+/**
+ * A client delegate provides methods for validate pin and otp in custom controllers
+ */
+@property (weak) id<PSTCKChargeDelegate> delegate;
 
 /**
  *  A shared singleton API client. Its API key will be initially equal to [Paystack defaultPublicKey].
@@ -94,6 +114,14 @@ typedef void (^PSTCKNotifyCompletionBlock)(void);
          didEndWithError:(nonnull PSTCKErrorCompletionBlock)errorCompletion
        willPresentDialog:(nonnull PSTCKNotifyCompletionBlock)showingDialogCompletion
          dismissedDialog:(nonnull PSTCKNotifyCompletionBlock)dialogDismissedCompletion
+   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion;
+
+- (void)      chargeCard:(nonnull PSTCKCardParams *)card
+          forTransaction:(nonnull PSTCKTransactionParams *)transaction
+        onViewController:(nonnull UIViewController *)viewController
+              alertsType:(PSTCKChargeRequestAlerts )state
+         didEndWithError:(nonnull PSTCKErrorCompletionBlock)errorCompletion
+    didRequestValidation:(nonnull PSTCKTransactionCompletionBlock)beforeValidateCompletion
    didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion;
 
 @end

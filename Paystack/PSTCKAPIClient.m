@@ -95,6 +95,7 @@ static Boolean PROCESSING = false;
 @property(nonatomic, copy) PSTCKNotifyCompletionBlock dialogDismissedCompletion;
 @property(nonatomic, copy) PSTCKTransactionCompletionBlock successCompletion;
 @property int INVALID_DATA_SENT_RETRIES;
+@property(nonatomic) PSTCKChargeRequestAlerts chargeReqestAlertsState;
 @end
 
 @implementation PSTCKAPIClient
@@ -308,6 +309,18 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
     
 }
 
+- (void)chargeCard:(PSTCKCardParams *)card
+    forTransaction:(PSTCKTransactionParams *)transaction
+  onViewController:(UIViewController *)viewController
+        alertsType:(PSTCKChargeRequestAlerts)state
+   didEndWithError:(PSTCKErrorCompletionBlock)errorCompletion
+didRequestValidation:(PSTCKTransactionCompletionBlock)beforeValidateCompletion
+didTransactionSuccess:(PSTCKTransactionCompletionBlock)successCompletion {
+    self.beforeValidateCompletion = beforeValidateCompletion;
+    [self chargeCard:card forTransaction:transaction onViewController:viewController didEndWithError:errorCompletion didTransactionSuccess:successCompletion];
+    [self setChargeReqestAlertsState:state];
+}
+
 - (void)startWithCard:(nonnull PSTCKCardParams *)card
        forTransaction:(nonnull PSTCKTransactionParams *)transaction
      onViewController:(nonnull UIViewController *)viewController
@@ -384,32 +397,40 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
 }
 
 - (void) requestPin{
+    switch (self.chargeReqestAlertsState) {
+        case PSTCKChargeRequestAlertsCustomPin:
+            [self requestPinCustom];
+            break;
+        case PSTCKChargeRequestAlertsCustomAlerts:
+            [self requestPinCustom];
+            break;
+        default:
+            [self requestPinAlert];
+            break;
+    }
+}
+
+- (void)requestPinCustom {
+    if ([self.delegate respondsToSelector:@selector(PSTCKCustomPinMethodWith:)]) {
+        __weak typeof (self) weakSelf = self;
+        [self.delegate PSTCKCustomPinMethodWith:^(NSString * _Nonnull reference) {
+            [weakSelf performPinActionWithText:reference];
+        }];
+    }
+}
+
+- (void) requestPinAlert {
     [self notifyShowingDialog];
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enter CARD PIN"
                                                                    message:@"To confirm that you are the owner of this card please enter your card PIN"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
+    __weak typeof (self) weakSelf = self;
     UIAlertAction* defaultAction = [UIAlertAction
                                     actionWithTitle:@"Continue" style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction * action) {
                                         [action isEnabled]; // Just to avoid Unused error
-                                        [self notifyDialogDismissed];
-                                        NSString *provided = ((UITextField *)[alert.textFields objectAtIndex:0]).text;
-                                        NSString *handle = [PSTCKCardValidator sanitizedNumericStringForString:provided];
-                                        if(handle == nil ||
-                                           [handle length]!=4 ||
-                                           ([provided length] != [handle length])){
-                                            [self didEndWithErrorMessage:@"Invalid PIN provided. Expected exactly 4 digits."];
-                                            return;
-                                        }
-                                        NSData *hdata = [PSTCKFormEncoder formEncryptedDataForCard:self.card
-                                                                                    andTransaction:self.transaction
-                                                                                         andHandle:[PSTCKRSA encryptRSA:handle]
-                                                                                      usePublicKey:[self publicKey]
-                                                                                      onThisDevice:[self.class device_id]];
-                                        [self makeChargeRequest:hdata
-                                                        atStage:PSTCKChargeStagePlusHandle];
-                                        
+                                        [weakSelf performPinActionWithText:[alert.textFields objectAtIndex:0].text];
                                     }];
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -420,6 +441,25 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
     
     [alert addAction:defaultAction];
     [self.viewController presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)performPinActionWithText:(NSString *) text {
+    
+    [self notifyDialogDismissed];
+    NSString *handle = [PSTCKCardValidator sanitizedNumericStringForString:text];
+    if(handle == nil ||
+       [handle length]!=4 ||
+       ([text length] != [handle length])){
+        [self didEndWithErrorMessage:@"Invalid PIN provided. Expected exactly 4 digits."];
+        return;
+    }
+    NSData *hdata = [PSTCKFormEncoder formEncryptedDataForCard:self.card
+                                                andTransaction:self.transaction
+                                                     andHandle:[PSTCKRSA encryptRSA:handle]
+                                                  usePublicKey:[self publicKey]
+                                                  onThisDevice:[self.class device_id]];
+    [self makeChargeRequest:hdata
+                    atStage:PSTCKChargeStagePlusHandle];
 }
 
 - (void) requestAuth:(NSString * _Nonnull) url{
@@ -442,27 +482,41 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
 }
 
 - (void) requestOtp:(NSString * _Nonnull) otpmessage{
+    switch (self.chargeReqestAlertsState) {
+        case PSTCKChargeRequestAlertsCustomOtp:
+            [self requestOtpCustom];
+            break;
+        case PSTCKChargeRequestAlertsCustomAlerts:
+            [self requestOtpCustom];
+            break;
+        default:
+            [self requestOtpAlert:otpmessage];
+            break;
+    }
+}
+
+- (void)requestOtpCustom {
+    if ([self.delegate respondsToSelector:@selector(PSTCKCustomOtpMethodWith:)]) {
+        __weak typeof (self) weakSelf = self;
+        [self.delegate PSTCKCustomOtpMethodWith:^(NSString * _Nonnull reference) {
+            [weakSelf performOtpActionWithText:reference];
+        }];
+    }
+}
+
+- (void) requestOtpAlert:(NSString * _Nonnull) otpmessage {
     [self notifyShowingDialog];
     [self notifyBeforeValidate];
     UIAlertController* tkalert = [UIAlertController alertControllerWithTitle:@"Enter OTP"
                                                                      message:otpmessage
                                                               preferredStyle:UIAlertControllerStyleAlert];
     
+    __weak typeof (self) weakSelf = self;
     UIAlertAction* tkdefaultAction = [UIAlertAction
                                       actionWithTitle:@"Continue" style:UIAlertActionStyleDefault
                                       handler:^(UIAlertAction * action) {
                                           [action isEnabled]; // Just to avoid Unused error
-                                          [self notifyDialogDismissed];
-                                          NSString *provided = ((UITextField *)[tkalert.textFields objectAtIndex:0]).text;
-                                          PSTCKValidationParams *validateParams = [PSTCKValidationParams alloc];
-                                          validateParams.trans = self.serverTransaction.id;
-                                          validateParams.token = provided;
-                                          NSData *vdata = [PSTCKFormEncoder formEncodedDataForObject:validateParams
-                                                                                        usePublicKey:[self publicKey]
-                                                                                        onThisDevice:[self.class device_id]];
-                                          [self makeChargeRequest:vdata
-                                                          atStage:PSTCKChargeStageValidateToken];
-                                          
+                                          [weakSelf performOtpActionWithText:((UITextField *)[tkalert.textFields objectAtIndex:0]).text];
                                       }];
     
     [tkalert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -471,6 +525,18 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
     }];
     [tkalert addAction:tkdefaultAction];
     [self.viewController presentViewController:tkalert animated:YES completion:nil];
+}
+
+- (void)performOtpActionWithText:(NSString *) text {
+    [self notifyDialogDismissed];
+    PSTCKValidationParams *validateParams = [PSTCKValidationParams alloc];
+    validateParams.trans = self.serverTransaction.id;
+    validateParams.token = text;
+    NSData *vdata = [PSTCKFormEncoder formEncodedDataForObject:validateParams
+                                                  usePublicKey:[self publicKey]
+                                                  onThisDevice:[self.class device_id]];
+    [self makeChargeRequest:vdata
+                    atStage:PSTCKChargeStageValidateToken];
 }
 
 - (void) handleResponse:(PSTCKTransaction * _Nonnull)responseObject{
