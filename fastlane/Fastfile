@@ -53,7 +53,7 @@ desc "Sonar Cloud Scanner"
       project_name: "PaystackiOS",
       sources_path: File.expand_path("../Paystack"),
       sonar_organization: "paystackhq",
-      sonar_login: ${{ secrets.SONAR_TOKEN }},
+      sonar_login: ENV["SONAR_TOKEN"],
       sonar_url: "https://sonarcloud.io"
     )
     end

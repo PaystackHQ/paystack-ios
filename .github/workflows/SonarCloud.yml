@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  
+          fetch-depth: 0
       - name: Setup environment
         run: |
           bundle install
@@ -30,6 +30,8 @@ jobs:
                 test
          
       - name: SonarCloud Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           gem install slather  
           brew install sonar-scanner
