@@ -1,0 +1,36 @@
+name: SonarCloud
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  
+      - name: Setup environment
+        run: |
+          bundle install
+      - name: Build
+        shell: bash
+        run: |
+          curl -L -O https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
+          unzip -o build-wrapper-macosx-x86.zip
+          /Users/runner/work/paystack-ios/paystack-ios/build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir DerivedData\compilation-database \
+          xcodebuild \
+                -scheme "PaystackiOS Tests"\
+                -derivedDataPath DerivedData\
+                -enableCodeCoverage "YES"\
+                -destination 'platform=iOS Simulator,name=iPhone 8,OS=14.4'\
+                test
+         
+      - name: SonarCloud Analysis
+        run: |
+          gem install slather  
+          brew install sonar-scanner
+          bundle exec fastlane metrics

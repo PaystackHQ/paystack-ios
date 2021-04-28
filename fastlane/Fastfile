@@ -29,4 +29,32 @@ desc "Run unit tests"
       	clean: true
       )
   end
+  
+desc "Sonar Cloud Scanner"
+  lane :metrics do
+
+    scan(scheme: "PaystackiOS Tests",
+      code_coverage: true,
+      output_directory: "./sonar-reports",
+      devices: "iPhone 8")
+     
+    slather(cobertura_xml: true,
+      scheme: "PaystackiOS",
+      proj: "./Paystack.xcodeproj",
+      output_directory: "./sonar-reports",
+      workspace: "./Paystack.xcworkspace")
+
+     swiftlint(output_file: "./sonar-reports/swiftlint.txt",
+      ignore_exit_status: true)
+     
+     sonar(
+      project_key: "PaystackHQ_paystack-ios",
+      project_version: "1.0",
+      project_name: "PaystackiOS",
+      sources_path: File.expand_path("../Paystack"),
+      sonar_organization: "paystackhq",
+      sonar_login: ${{ secrets.SONAR_TOKEN }},
+      sonar_url: "https://sonarcloud.io"
+    )
+    end
 end
