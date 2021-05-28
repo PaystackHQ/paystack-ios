@@ -30,11 +30,12 @@
 
 #define FAUXPAS_IGNORED_IN_METHOD(...)
 
-static NSString *const apiURLBase = @"standard.paystack.co";
-static NSString *const chargeEndpoint = @"charge/mobile_charge";
-static NSString *const avsEndpoint = @"charge/avs";
-static NSString *const validateEndpoint = @"charge/validate";
-static NSString *const requeryEndpoint = @"charge/requery/";
+static NSString *const apiURLBase = @"studio-api.paystack.co";
+static NSString *const verifyAccessCode = @"transaction/verify_access_code/";
+static NSString *const chargeEndpoint = @"checkout/card/charge";
+static NSString *const avsEndpoint = @"checkout/card/avs";
+static NSString *const validateEndpoint = @"checkout/charge/validate";
+static NSString *const requeryEndpoint = @"checkout/requery/";
 static NSString *const paystackAPIVersion = @"2017-05-25";
 static NSString *PSTCKDefaultPublicKey;
 static Boolean PROCESSING = false;
