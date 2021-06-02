@@ -396,9 +396,8 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
             return;
         }
         NSData *hdata = [PSTCKFormEncoder formEncryptedDataForCard:self.card
-                                                    andTransaction:self.transaction
+                                                    andTransaction:self.serverTransaction.id
                                                          andHandle:[PSTCKRSA encryptRSA:handle]
-                                                      usePublicKey:[self publicKey]
                                                       onThisDevice:[self.class device_id]];
         [self makeChargeRequest:hdata
                         atStage:PSTCKChargeStagePlusHandle];
