@@ -13,15 +13,17 @@
 + (void)startWithAPIClient:(PSTCKAPIClient *)apiClient
                   endpoint:(NSString *)endpoint
                     method:(NSString *)httpMethod
-                  postData:(NSData *)postData
+                  postData:(nullable NSData *)postData
                 serializer:(id<PSTCKAPIResponseDecodable>)serializer
                 completion:(void (^)(id<PSTCKAPIResponseDecodable>, NSError *))completion {
     
     NSURL *url = [apiClient.apiURL URLByAppendingPathComponent:endpoint];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = httpMethod; // @"POST"
-    request.HTTPBody = postData;
-//    NSLog(@"%@",postData);
+    if (postData != nil) {
+        request.HTTPBody = postData;
+    }
+    //    NSLog(@"%@",postData);
     
     [[apiClient.urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable body, __unused NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSError *someerror;
@@ -31,9 +33,9 @@
         NSError *returnedError = error;
         if (!responseObject && !returnedError) {
             NSDictionary *userInfo = @{
-                                       NSLocalizedDescriptionKey: @"The response from Paystack failed to get parsed into valid JSON",
-                                       PSTCKErrorMessageKey: [@"The response from Paystack failed to get parsed into valid JSON. Response was: " stringByAppendingString:bodyString]
-                                       };
+                NSLocalizedDescriptionKey: @"The response from Paystack failed to get parsed into valid JSON",
+                PSTCKErrorMessageKey: [@"The response from Paystack failed to get parsed into valid JSON. Response was: " stringByAppendingString:bodyString]
+            };
             returnedError = [[NSError alloc] initWithDomain:PaystackDomain code:PSTCKAPIError userInfo:userInfo];
         }
         // We're using the api client's operation queue instead of relying on the url session's operation queue
