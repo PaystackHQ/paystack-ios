@@ -22,6 +22,7 @@
 #import "PSTCKAPIResponseDecodable.h"
 #import "PSTCKAuthViewController.h"
 #import "PSTCKAPIPostRequest.h"
+#import "PSTCKValidatedTransaction.h"
 #import <Paystack/Paystack-Swift.h>
 
 #ifdef PSTCK_STATIC_LIBRARY_BUILD
@@ -227,12 +228,8 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
     }
     PROCESSING = YES;
     self.INVALID_DATA_SENT_RETRIES = 0;
-    NSData *data = [PSTCKFormEncoder formEncryptedDataForCard:card
-                                               andTransaction:transaction
-                                                 usePublicKey:[self publicKey]
-                                                 onThisDevice:[self.class device_id]];
+    [self verifyAccessCode:transaction.access_code forCard:card];
     
-    [self makeChargeRequest:data atStage:PSTCKChargeStageNoHandle];
 }
 
 - (void)setProcessingStatus:(Boolean)status {
