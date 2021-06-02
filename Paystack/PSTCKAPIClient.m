@@ -35,7 +35,7 @@ static NSString *const apiURLBase = @"studio-api.paystack.co";
 static NSString *const verifyAccessCode = @"transaction/verify_access_code/";
 static NSString *const chargeEndpoint = @"checkout/card/charge";
 static NSString *const avsEndpoint = @"checkout/card/avs";
-static NSString *const validateEndpoint = @"checkout/charge/validate";
+static NSString *const validateEndpoint = @"checkout/card/validate";
 static NSString *const requeryEndpoint = @"checkout/requery/";
 static NSString *const paystackAPIVersion = @"2017-05-25";
 static NSString *PSTCKDefaultPublicKey;
@@ -329,7 +329,7 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
             break;
         case PSTCKChargeStageRequery:
         case PSTCKChargeStageAuthorize:
-            endpoint =  [requeryEndpoint stringByAppendingString:self.serverTransaction.id] ;
+            endpoint =  [NSString stringWithFormat: @"%@%@", requeryEndpoint, self.serverTransaction.id];
             httpMethod = @"GET";
             break;
         case PSTCKChargeStageAVS:
