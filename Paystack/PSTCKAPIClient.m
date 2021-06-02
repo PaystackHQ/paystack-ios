@@ -293,6 +293,25 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
 }
 
 
+- (void) verifyAccessCode:(NSString *)accessCode forCard: (nonnull PSTCKCardParams *) card
+{
+    NSString *endpoint = [verifyAccessCode stringByAppendingString:accessCode];
+
+    [PSTCKAPIPostRequest<PSTCKValidatedTransaction *>
+     startWithAPIClient:self endpoint:endpoint method:@"GET" postData:nil serializer:[PSTCKValidatedTransaction new] completion:^(PSTCKValidatedTransaction * _Nullable responseObject, NSError * _Nullable error){
+        if((responseObject != nil) && ([responseObject id] != nil)){
+            self.serverTransaction.id = [responseObject id];
+            NSData *data = [PSTCKFormEncoder formEncryptedDataForCard:card withTransaction: [responseObject id] onThisDevice: [self.class device_id]];
+            [self makeChargeRequest:data atStage:PSTCKChargeStageNoHandle];
+        }
+        if(error != nil){
+            [self didEndWithError:error];
+            return;
+        }
+    }];
+}
+
+
 
 - (void) makeChargeRequest:(NSData *)data
                    atStage:(PSTCKChargeStage) stage
