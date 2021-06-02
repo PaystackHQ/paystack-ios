@@ -265,6 +265,10 @@
 		10500ABE1C8216C200EEF7CF /* PSTCKRSA.h in Headers */ = {isa = PBXBuildFile; fileRef = 10500AB31C8135F800EEF7CF /* PSTCKRSA.h */; };
 		10A653A31C88CC5900EBC974 /* PSTCKCardParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 04CDE5BB1BC1F21500548833 /* PSTCKCardParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		10FC52071C88DDB3004A0733 /* PSTCKRSA.h in Headers */ = {isa = PBXBuildFile; fileRef = 10500AB31C8135F800EEF7CF /* PSTCKRSA.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9111D234265BF53700699608 /* PSTCKValidatedTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9111D233265BF53700699608 /* PSTCKValidatedTransaction.m */; };
+		9111D235265BF53700699608 /* PSTCKValidatedTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9111D233265BF53700699608 /* PSTCKValidatedTransaction.m */; };
+		9111D237265BF77100699608 /* PSTCKValidatedTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9111D236265BF77100699608 /* PSTCKValidatedTransaction.h */; };
+		9111D238265BF7E100699608 /* PSTCKValidatedTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9111D236265BF77100699608 /* PSTCKValidatedTransaction.h */; };
 		919A9FBB249C442300B7A571 /* PSTCKAPIClientExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919A9FBA249C442300B7A571 /* PSTCKAPIClientExtension.swift */; };
 		91E448EE24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E448ED24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift */; };
 		91E448F824B60883007AA8F4 /* AddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E448F724B60883007AA8F4 /* AddressViewController.xib */; };
@@ -447,6 +451,8 @@
 		10500AB31C8135F800EEF7CF /* PSTCKRSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PSTCKRSA.h; path = RSA/PSTCKRSA.h; sourceTree = "<group>"; };
 		11C74B9B164043050071C2CA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4A0D74F918F6106100966D7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9111D233265BF53700699608 /* PSTCKValidatedTransaction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSTCKValidatedTransaction.m; sourceTree = "<group>"; };
+		9111D236265BF77100699608 /* PSTCKValidatedTransaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSTCKValidatedTransaction.h; sourceTree = "<group>"; };
 		919A9FBA249C442300B7A571 /* PSTCKAPIClientExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSTCKAPIClientExtension.swift; sourceTree = "<group>"; };
 		91E448ED24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTCKAddressViewController.swift; sourceTree = "<group>"; };
 		91E448F724B60883007AA8F4 /* AddressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressViewController.xib; sourceTree = "<group>"; };
@@ -622,6 +628,8 @@
 				04EBC7521B7533C300A0E6AE /* PSTCKCardValidator.h */,
 				0438EF3F1B74170D00D506CC /* PSTCKCardValidator.m */,
 				0806F2F61DBB9E8200C2741B /* PSTCKTransaction.m */,
+				9111D233265BF53700699608 /* PSTCKValidatedTransaction.m */,
+				9111D236265BF77100699608 /* PSTCKValidatedTransaction.h */,
 				0806F2F31DBB9E7100C2741B /* PSTCKTransactionParams.h */,
 				0806F2F71DBB9E8200C2741B /* PSTCKTransactionParams.m */,
 				0806F2FC1DBBA3F600C2741B /* PSTCKValidationParams.h */,
@@ -780,6 +788,7 @@
 				10500ABD1C8215F400EEF7CF /* PSTCKRSA.h in Headers */,
 				08A572411DF92F3F0045E184 /* PSTCKTransactionParams.h in Headers */,
 				049952D61BCF14930088C703 /* PSTCKAPIPostRequest.h in Headers */,
+				9111D238265BF7E100699608 /* PSTCKValidatedTransaction.h in Headers */,
 				04F213331BCEAB61001D6F22 /* PSTCKFormEncodable.h in Headers */,
 				049E84EC1A605EF0000B66CD /* PaystackError.h in Headers */,
 				08A572421DF92F3F0045E184 /* PSTCKValidationParams.h in Headers */,
@@ -812,6 +821,7 @@
 				0438EF471B74183100D506CC /* PSTCKCardBrand.h in Headers */,
 				10A653A31C88CC5900EBC974 /* PSTCKCardParams.h in Headers */,
 				10FC52071C88DDB3004A0733 /* PSTCKRSA.h in Headers */,
+				9111D237265BF77100699608 /* PSTCKValidatedTransaction.h in Headers */,
 				04CDB5161A5F30A700B854EE /* PaystackError.h in Headers */,
 				08A572401DF92F1D0045E184 /* PSTCKCategoryLoader.h in Headers */,
 				04E32A9D1B7A9490009C9E35 /* PSTCKPaymentCardTextField.h in Headers */,
@@ -969,7 +979,9 @@
 					};
 					04CDB4411A5F2E1800B854EE = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = E5H7W73394;
 						LastSwiftMigration = 1150;
+						ProvisioningStyle = Automatic;
 					};
 					04D12C051A5F556D0010446E = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -1198,6 +1210,7 @@
 				049E84CD1A605DE0000B66CD /* PSTCKFormEncoder.m in Sources */,
 				049E84D01A605DE0000B66CD /* PSTCKCard.m in Sources */,
 				0433EB4E1BD06313003912B4 /* NSDictionary+Paystack.m in Sources */,
+				9111D235265BF53700699608 /* PSTCKValidatedTransaction.m in Sources */,
 				0438EF3D1B7416BB00D506CC /* PSTCKPaymentCardTextFieldViewModel.m in Sources */,
 				04CDE5BA1BC1F1F100548833 /* PSTCKCardParams.m in Sources */,
 				049E84D11A605DE0000B66CD /* PSTCKToken.m in Sources */,
@@ -1232,6 +1245,7 @@
 				0806F2F81DBB9E8200C2741B /* PSTCKTransaction.m in Sources */,
 				91E448EE24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift in Sources */,
 				0438EF351B7416BB00D506CC /* PSTCKPaymentCardTextField.m in Sources */,
+				9111D234265BF53700699608 /* PSTCKValidatedTransaction.m in Sources */,
 				04CDB5041A5F30A700B854EE /* PSTCKFormEncoder.m in Sources */,
 				91FEDC5424B69EF000A236BA /* ValidationDelegate.swift in Sources */,
 				04CDB5141A5F30A700B854EE /* PSTCKToken.m in Sources */,
@@ -1350,13 +1364,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = E5H7W73394;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 3.0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paystack.paystack-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1369,13 +1389,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = E5H7W73394;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 3.0.16;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paystack.paystack-ios";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
