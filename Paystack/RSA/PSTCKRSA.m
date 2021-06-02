@@ -56,8 +56,7 @@ __OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_2_0) __attribute__((weak_import));
 
 
 +(NSString *)publicEncryptionKey{
-    return @"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANIsL+RHqfkBiKGn/D1y1QnNrMkKzxWP"
-    "2wkeSokw2OJrCI+d6YGJPrHHx+nmb/Qn885/R01Gw6d7M824qofmCvkCAwEAAQ==";
+    return @"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALhZs/7hP0g0+hrqTq0hFyGVxgco0NMxZD8nPS6ihxap0yNFjzdyUuZED6P4/aK9Ezl5ajEI9pcx5/1BrEE+F3kCAwEAAQ==";
 }
 
 +(NSData *)decodedPublicEncryptionKey{
