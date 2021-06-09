@@ -43,6 +43,11 @@ desc "Sonar Cloud Scanner"
       proj: "./Paystack.xcodeproj",
       output_directory: "./sonar-reports",
       workspace: "./Paystack.xcworkspace")
+      
+    gcovr(
+        html: true,
+        html_details: true,
+        output: "./code-coverage/report.html")
 
      swiftlint(output_file: "./sonar-reports/swiftlint.txt",
       ignore_exit_status: true)
