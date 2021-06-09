@@ -18,6 +18,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
+          brew install gcovr
           curl -L -O https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
           unzip -o build-wrapper-macosx-x86.zip
           /Users/runner/work/paystack-ios/paystack-ios/build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir DerivedData\compilation-database \
