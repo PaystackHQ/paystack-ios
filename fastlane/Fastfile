@@ -41,7 +41,7 @@ desc "Sonar Cloud Scanner"
     slather(sonarqube_xml: true,
       scheme: "PaystackiOS",
       proj: "./Paystack.xcodeproj",
-      output_directory: "./code-coverage/report.xml",
+      output_directory: "./code-coverage",
       workspace: "./Paystack.xcworkspace")
       
     gcovr(
