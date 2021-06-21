@@ -38,10 +38,10 @@ desc "Sonar Cloud Scanner"
       output_directory: "./sonar-reports",
       devices: "iPhone 8")
      
-    slather(cobertura_xml: true,
+    slather(sonarqube_xml: true,
       scheme: "PaystackiOS",
       proj: "./Paystack.xcodeproj",
-      output_directory: "./sonar-reports",
+      output_directory: "./code-coverage/report.xml",
       workspace: "./Paystack.xcworkspace")
       
     gcovr(
