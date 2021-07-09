@@ -528,7 +528,7 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
         }
     }
     
-    if([[responseObject status] isEqual:@"0"] || [[responseObject status] isEqual:@"error"] || [[responseObject status] isEqual:@"timeout"]){
+    if([[responseObject status] isEqual:@"0"] || [[responseObject status] isEqual:@"error"] || [[responseObject status] isEqual:@"timeout"] || ([responseObject message] != nil)){
         [self didEndWithErrorMessage:[responseObject message]];
     } else {
         // this is an invalid status

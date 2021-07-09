@@ -23,7 +23,6 @@
     if (postData != nil) {
         request.HTTPBody = postData;
     }
-    //    NSLog(@"%@",postData);
     
     [[apiClient.urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable body, __unused NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSError *someerror;
