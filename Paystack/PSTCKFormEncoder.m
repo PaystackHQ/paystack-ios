@@ -75,16 +75,25 @@ FOUNDATION_EXPORT NSString * PSTCKQueryStringFromParameters(NSDictionary *parame
 }
 
 + (nonnull NSData *)formEncryptedDataForCard:(nonnull PSTCKCardParams *)card
-                              andTransaction:(nonnull PSTCKTransactionParams *)transaction
-                                   andHandle:(nonnull NSString *)handle
-                                usePublicKey:(nonnull NSString *)public_key
+                                withTransaction:(nonnull NSString *)trans
                                 onThisDevice:(nonnull NSString *)device_id {
     NSString *urlencodedcard = [PSTCKFormEncoder urlEncodedStringForObject:card];
-    NSString *urlencodedtransaction = [PSTCKFormEncoder urlEncodedStringForObject:transaction];
-    NSString *urlencodedhandle = [[[PSTCKQueryStringPair alloc] initWithField:@"handle" value:handle] URLEncodedStringValue];
-    NSString *urlencodedpublickey = [[[PSTCKQueryStringPair alloc] initWithField:@"public_key" value:public_key] URLEncodedStringValue];
+    NSString *urlencodedtransaction = [[[PSTCKQueryStringPair alloc] initWithField:@"trans" value:trans] URLEncodedStringValue];
     NSString *urlencodeddevice = [[[PSTCKQueryStringPair alloc] initWithField:@"device" value:device_id] URLEncodedStringValue];
-    return [[NSString stringWithFormat:@"%@&%@&%@&%@&%@", urlencodedcard, urlencodedtransaction, urlencodedhandle, urlencodedpublickey, urlencodeddevice] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlencodedsource = [[[PSTCKQueryStringPair alloc] initWithField:@"source" value: @"ios"] URLEncodedStringValue];
+    return [[NSString stringWithFormat:@"%@&%@&%@&%@", urlencodedcard, urlencodedtransaction, urlencodeddevice, urlencodedsource] dataUsingEncoding:NSUTF8StringEncoding];
+}
+
++ (nonnull NSData *)formEncryptedDataForCard:(nonnull PSTCKCardParams *)card
+                              andTransaction:(nonnull NSString *)trans
+                                   andHandle:(nonnull NSString *)handle
+                                onThisDevice:(nonnull NSString *)device_id {
+    NSString *urlencodedcard = [PSTCKFormEncoder urlEncodedStringForObject:card];
+    NSString *urlencodedtransaction = [[[PSTCKQueryStringPair alloc] initWithField:@"trans" value:trans] URLEncodedStringValue];
+    NSString *urlencodedhandle = [[[PSTCKQueryStringPair alloc] initWithField:@"handle" value:handle] URLEncodedStringValue];
+    NSString *urlencodeddevice = [[[PSTCKQueryStringPair alloc] initWithField:@"device" value:device_id] URLEncodedStringValue];
+    NSString *urlencodedsource = [[[PSTCKQueryStringPair alloc] initWithField:@"source" value: @"ios"] URLEncodedStringValue];
+    return [[NSString stringWithFormat:@"%@&%@&%@&%@&%@", urlencodedcard, urlencodedtransaction, urlencodedhandle, urlencodeddevice, urlencodedsource] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 + (NSData *)formEncryptedDataForDict:(NSDictionary *)dict usePublicKey:(NSString *)public_key onThisDevice:(NSString *)device_id {

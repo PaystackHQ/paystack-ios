@@ -22,6 +22,7 @@
 #import "PSTCKAPIResponseDecodable.h"
 #import "PSTCKAuthViewController.h"
 #import "PSTCKAPIPostRequest.h"
+#import "PSTCKValidatedTransaction.h"
 #import <Paystack/Paystack-Swift.h>
 
 #ifdef PSTCK_STATIC_LIBRARY_BUILD
@@ -30,11 +31,12 @@
 
 #define FAUXPAS_IGNORED_IN_METHOD(...)
 
-static NSString *const apiURLBase = @"standard.paystack.co";
-static NSString *const chargeEndpoint = @"charge/mobile_charge";
-static NSString *const avsEndpoint = @"charge/avs";
-static NSString *const validateEndpoint = @"charge/validate";
-static NSString *const requeryEndpoint = @"charge/requery/";
+static NSString *const apiURLBase = @"studio-api.paystack.co";
+static NSString *const verifyAccessCode = @"transaction/verify_access_code/";
+static NSString *const chargeEndpoint = @"checkout/card/charge";
+static NSString *const avsEndpoint = @"checkout/card/avs";
+static NSString *const validateEndpoint = @"checkout/card/validate";
+static NSString *const requeryEndpoint = @"checkout/requery/";
 static NSString *const paystackAPIVersion = @"2017-05-25";
 static NSString *PSTCKDefaultPublicKey;
 static Boolean PROCESSING = false;
@@ -226,12 +228,8 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
     }
     PROCESSING = YES;
     self.INVALID_DATA_SENT_RETRIES = 0;
-    NSData *data = [PSTCKFormEncoder formEncryptedDataForCard:card
-                                               andTransaction:transaction
-                                                 usePublicKey:[self publicKey]
-                                                 onThisDevice:[self.class device_id]];
+    [self verifyAccessCode:transaction.access_code forCard:card];
     
-    [self makeChargeRequest:data atStage:PSTCKChargeStageNoHandle];
 }
 
 - (void)setProcessingStatus:(Boolean)status {
@@ -292,6 +290,25 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
 }
 
 
+- (void) verifyAccessCode:(NSString *)accessCode forCard: (nonnull PSTCKCardParams *) card
+{
+    NSString *endpoint = [verifyAccessCode stringByAppendingString:accessCode];
+
+    [PSTCKAPIPostRequest<PSTCKValidatedTransaction *>
+     startWithAPIClient:self endpoint:endpoint method:@"GET" postData:nil serializer:[PSTCKValidatedTransaction new] completion:^(PSTCKValidatedTransaction * _Nullable responseObject, NSError * _Nullable error){
+        if((responseObject != nil) && ([responseObject id] != nil)){
+            self.serverTransaction.id = [responseObject id];
+            NSData *data = [PSTCKFormEncoder formEncryptedDataForCard:card withTransaction: [responseObject id] onThisDevice: [self.class device_id]];
+            [self makeChargeRequest:data atStage:PSTCKChargeStageNoHandle];
+        }
+        if(error != nil){
+            [self didEndWithError:error];
+            return;
+        }
+    }];
+}
+
+
 
 - (void) makeChargeRequest:(NSData *)data
                    atStage:(PSTCKChargeStage) stage
@@ -312,7 +329,7 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
             break;
         case PSTCKChargeStageRequery:
         case PSTCKChargeStageAuthorize:
-            endpoint =  [requeryEndpoint stringByAppendingString:self.serverTransaction.id] ;
+            endpoint =  [NSString stringWithFormat: @"%@%@", requeryEndpoint, self.serverTransaction.id];
             httpMethod = @"GET";
             break;
         case PSTCKChargeStageAVS:
@@ -376,9 +393,8 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
             return;
         }
         NSData *hdata = [PSTCKFormEncoder formEncryptedDataForCard:self.card
-                                                    andTransaction:self.transaction
+                                                    andTransaction:self.serverTransaction.id
                                                          andHandle:[PSTCKRSA encryptRSA:handle]
-                                                      usePublicKey:[self publicKey]
                                                       onThisDevice:[self.class device_id]];
         [self makeChargeRequest:hdata
                         atStage:PSTCKChargeStagePlusHandle];
@@ -512,7 +528,7 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
         }
     }
     
-    if([[responseObject status] isEqual:@"0"] || [[responseObject status] isEqual:@"error"] || [[responseObject status] isEqual:@"timeout"]){
+    if([[responseObject status] isEqual:@"0"] || [[responseObject status] isEqual:@"error"] || [[responseObject status] isEqual:@"timeout"] || ([responseObject message] != nil)){
         [self didEndWithErrorMessage:[responseObject message]];
     } else {
         // this is an invalid status
