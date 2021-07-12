@@ -4,6 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <PassKit/PassKit.h>
 #if TARGET_OS_IPHONE
 #import <UIKit/UIViewController.h>
 #endif
@@ -104,6 +105,15 @@ typedef void (^PSTCKNotifyCompletionBlock)(void);
        willPresentDialog:(nonnull PSTCKNotifyCompletionBlock)showingDialogCompletion
          dismissedDialog:(nonnull PSTCKNotifyCompletionBlock)dialogDismissedCompletion
    didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion;
+
+-(void) initializeTransaction:(nonnull PSTCKTransactionParams *) transactionParams
+                   didSucceed:(nonnull PSTCKErrorCompletionBlock)successCompletion
+              didEndWithError: (nonnull PSTCKErrorCompletionBlock)errorCompletion;
+
+-(void) chargeWithApplePay: (nonnull  PKPayment*) payment
+            forTransaction: (nonnull NSString*) transactionID
+                didSucceed: (nonnull PSTCKErrorCompletionBlock)successCompletion
+           didEndWithError: (nonnull  PSTCKErrorCompletionBlock) errorCompletion;
 
 - (void) setProcessingStatus:(Boolean)status;
 

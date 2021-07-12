@@ -165,6 +165,12 @@ class ViewController: UIViewController, PSTCKPaymentCardTextFieldDelegate {
         return
     }
     
+    func initializeTransaction() {
+        let transactionParams = PSTCKTransactionParams()
+       // PSTCKAPIClient.shared().initializeTransaction(transactionParams, didSucceed: <#T##PSTCKErrorCompletionBlock##PSTCKErrorCompletionBlock##(Error, String?) -> Void#>, didEndWithError: <#T##PSTCKErrorCompletionBlock##PSTCKErrorCompletionBlock##(Error, String?) -> Void#>)
+    }
+    
+    
     func verifyTransaction(reference: String){
         if let url = URL(string: backendURLString  + "/verify/" + reference) {
             makeBackendRequest(url: url, message: "verifying " + reference, completion:{(str) -> Void in

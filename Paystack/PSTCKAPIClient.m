@@ -238,6 +238,17 @@ didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion
     PROCESSING=status;
 }
 
+- (void)chargeWithApplePay:(PKPayment *)payment forTransaction:(NSString *)transactionID didSucceed:(PSTCKErrorCompletionBlock)successCompletion didEndWithError:(PSTCKErrorCompletionBlock)errorCompletion {
+    
+    
+}
+
+- (void)initializeTransaction:(PSTCKTransactionParams *)transactionParams didSucceed:(PSTCKErrorCompletionBlock)successCompletion
+              didEndWithError: (nonnull PSTCKErrorCompletionBlock)errorCompletion{
+    
+}
+
+
 - (void)chargeCard:(nonnull PSTCKCardParams *)card
     forTransaction:(nonnull PSTCKTransactionParams *)transaction
   onViewController:(nonnull UIViewController *)viewController

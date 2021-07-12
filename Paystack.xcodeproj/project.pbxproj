@@ -265,6 +265,15 @@
 		10500ABE1C8216C200EEF7CF /* PSTCKRSA.h in Headers */ = {isa = PBXBuildFile; fileRef = 10500AB31C8135F800EEF7CF /* PSTCKRSA.h */; };
 		10A653A31C88CC5900EBC974 /* PSTCKCardParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 04CDE5BB1BC1F21500548833 /* PSTCKCardParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		10FC52071C88DDB3004A0733 /* PSTCKRSA.h in Headers */ = {isa = PBXBuildFile; fileRef = 10500AB31C8135F800EEF7CF /* PSTCKRSA.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		910F283926985EF700F68AE7 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283526985EF600F68AE7 /* Result.swift */; };
+		910F283A26985EF700F68AE7 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283626985EF600F68AE7 /* Resource.swift */; };
+		910F283B26985EF700F68AE7 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283726985EF700F68AE7 /* HttpMethod.swift */; };
+		910F283C26985EF700F68AE7 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283826985EF700F68AE7 /* APIClient.swift */; };
+		910F284126985F5A00F68AE7 /* PSTKTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283D26985F5900F68AE7 /* PSTKTransaction.swift */; };
+		910F284226985F5A00F68AE7 /* PSTKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283E26985F5900F68AE7 /* PSTKError.swift */; };
+		910F284326985F5A00F68AE7 /* PKPaymentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F283F26985F5900F68AE7 /* PKPaymentContainer.swift */; };
+		910F284426985F5A00F68AE7 /* ChargeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F284026985F5A00F68AE7 /* ChargeResponse.swift */; };
+		910F284626985F8100F68AE7 /* PaymentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910F284526985F8000F68AE7 /* PaymentHandler.swift */; };
 		919A9FBB249C442300B7A571 /* PSTCKAPIClientExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919A9FBA249C442300B7A571 /* PSTCKAPIClientExtension.swift */; };
 		91E448EE24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E448ED24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift */; };
 		91E448F824B60883007AA8F4 /* AddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E448F724B60883007AA8F4 /* AddressViewController.xib */; };
@@ -447,6 +456,15 @@
 		10500AB31C8135F800EEF7CF /* PSTCKRSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PSTCKRSA.h; path = RSA/PSTCKRSA.h; sourceTree = "<group>"; };
 		11C74B9B164043050071C2CA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4A0D74F918F6106100966D7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		910F283526985EF600F68AE7 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		910F283626985EF600F68AE7 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		910F283726985EF700F68AE7 /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		910F283826985EF700F68AE7 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		910F283D26985F5900F68AE7 /* PSTKTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTKTransaction.swift; sourceTree = "<group>"; };
+		910F283E26985F5900F68AE7 /* PSTKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTKError.swift; sourceTree = "<group>"; };
+		910F283F26985F5900F68AE7 /* PKPaymentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKPaymentContainer.swift; sourceTree = "<group>"; };
+		910F284026985F5A00F68AE7 /* ChargeResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargeResponse.swift; sourceTree = "<group>"; };
+		910F284526985F8000F68AE7 /* PaymentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentHandler.swift; sourceTree = "<group>"; };
 		919A9FBA249C442300B7A571 /* PSTCKAPIClientExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSTCKAPIClientExtension.swift; sourceTree = "<group>"; };
 		91E448ED24B4A8DC007AA8F4 /* PSTCKAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSTCKAddressViewController.swift; sourceTree = "<group>"; };
 		91E448F724B60883007AA8F4 /* AddressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressViewController.xib; sourceTree = "<group>"; };
@@ -613,6 +631,15 @@
 				04CDB4C51A5F30A700B854EE /* PSTCKFormEncoder.m */,
 				0438EF461B74183100D506CC /* PSTCKCardBrand.h */,
 				04F213301BCEAB61001D6F22 /* PSTCKFormEncodable.h */,
+				910F283826985EF700F68AE7 /* APIClient.swift */,
+				910F284026985F5A00F68AE7 /* ChargeResponse.swift */,
+				910F283F26985F5900F68AE7 /* PKPaymentContainer.swift */,
+				910F283E26985F5900F68AE7 /* PSTKError.swift */,
+				910F283D26985F5900F68AE7 /* PSTKTransaction.swift */,
+				910F283726985EF700F68AE7 /* HttpMethod.swift */,
+				910F284526985F8000F68AE7 /* PaymentHandler.swift */,
+				910F283626985EF600F68AE7 /* Resource.swift */,
+				910F283526985EF600F68AE7 /* Result.swift */,
 				04F213341BCECB1C001D6F22 /* PSTCKAPIResponseDecodable.h */,
 				04CDE5BB1BC1F21500548833 /* PSTCKCardParams.h */,
 				04CDE5B41BC1F1F100548833 /* PSTCKCardParams.m */,
@@ -1214,9 +1241,16 @@
 				91FEDC6524B72B9800A236BA /* KeyboardHandlingVC.swift in Sources */,
 				08A5723F1DF92EF30045E184 /* PSTCKCategoryLoader.m in Sources */,
 				0438EF431B74170D00D506CC /* PSTCKCardValidator.m in Sources */,
+				910F283A26985EF700F68AE7 /* Resource.swift in Sources */,
 				0438EF2F1B7416BB00D506CC /* PSTCKFormTextField.m in Sources */,
 				91FEDC5724B69EF000A236BA /* RequiredRule.swift in Sources */,
+				910F284426985F5A00F68AE7 /* ChargeResponse.swift in Sources */,
 				919A9FBB249C442300B7A571 /* PSTCKAPIClientExtension.swift in Sources */,
+				910F283926985EF700F68AE7 /* Result.swift in Sources */,
+				910F284126985F5A00F68AE7 /* PSTKTransaction.swift in Sources */,
+				910F283C26985EF700F68AE7 /* APIClient.swift in Sources */,
+				910F284626985F8100F68AE7 /* PaymentHandler.swift in Sources */,
+				910F283B26985EF700F68AE7 /* HttpMethod.swift in Sources */,
 				91FEDC5224B69EF000A236BA /* ValidatorDictionary.swift in Sources */,
 				91FEDC5524B69EF000A236BA /* Validatable.swift in Sources */,
 				91FEDC5324B69EF000A236BA /* Validator.swift in Sources */,
@@ -1225,6 +1259,8 @@
 				91FEDC5824B69EF000A236BA /* ValidationError.swift in Sources */,
 				04CDB5101A5F30A700B854EE /* PSTCKCard.m in Sources */,
 				04CDB5001A5F30A700B854EE /* PSTCKAPIClient.m in Sources */,
+				910F284326985F5A00F68AE7 /* PKPaymentContainer.swift in Sources */,
+				910F284226985F5A00F68AE7 /* PSTKError.swift in Sources */,
 				10500AB21C8135D800EEF7CF /* PSTCKRSA.m in Sources */,
 				0806F2FB1DBBA3C500C2741B /* PSTCKValidationParams.m in Sources */,
 				04CDB5181A5F30A700B854EE /* PaystackError.m in Sources */,
