@@ -44,13 +44,6 @@ desc "Sonar Cloud Scanner"
       output_directory: "./code-coverage",
       workspace: "./Paystack.xcworkspace")
       
-    sh("mv ../code-coverage/sonarqube-generic-coverage.xml ../code-coverage/report.xml")
-
-    gcovr(
-        html: true,
-        html_details: true,
-        output: "./code-coverage/report.html")
-
      swiftlint(output_file: "./sonar-reports/swiftlint.txt",
       ignore_exit_status: true)
      
