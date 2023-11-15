@@ -13,7 +13,7 @@
 #import "UIImage+Paystack.h"
 
 #define FAUXPAS_IGNORED_IN_METHOD(...)
-
+__deprecated
 @interface PSTCKPaymentCardTextField()<PSTCKFormTextFieldDelegate>
 
 @property(nonatomic, readwrite, strong)PSTCKFormTextField *sizingField;

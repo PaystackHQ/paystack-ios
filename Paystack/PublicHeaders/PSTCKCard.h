@@ -67,24 +67,24 @@ typedef NS_ENUM(NSInteger, PSTCKCardFundingType) {
 /**
  *  The Paystack ID for the card.
  */
-@property (nonatomic, readonly, nullable) NSString *cardId;
+@property (nonatomic, readonly, nullable) NSString *cardId __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 /**
  *  The issuer of the card.
  */
-@property (nonatomic, readonly) PSTCKCardBrand brand;
+@property (nonatomic, readonly) PSTCKCardBrand brand __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 /**
  *  The issuer of the card.
  *  Can be one of "Visa", "American Express", "MasterCard", "Discover", "JCB", "Diners Club", or "Unknown"
  *  @deprecated use "brand" instead.
  */
-@property (nonatomic, readonly, nonnull) NSString *type __attribute__((deprecated));
+@property (nonatomic, readonly, nonnull) NSString *type __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 /**
  *  The funding source for the card (credit, debit, prepaid, or other)
  */
-@property (nonatomic, readonly) PSTCKCardFundingType funding;
+@property (nonatomic, readonly) PSTCKCardFundingType funding __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 /**
  *  A proxy for the card's number, this uniquely identifies the credit card and can be used to compare different cards.
@@ -95,12 +95,12 @@ typedef NS_ENUM(NSInteger, PSTCKCardFundingType) {
 /**
  *  Two-letter ISO code representing the issuing country of the card.
  */
-@property (nonatomic, readonly, nullable) NSString *country;
+@property (nonatomic, readonly, nullable) NSString *country __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 /**
  *  This is only applicable when tokenizing debit cards to issue payouts to managed accounts. You should not set it otherwise. The card can then be used as a transfer destination for funds in this currency.
  */
-@property (nonatomic, copy, nullable) NSString *currency;
+@property (nonatomic, copy, nullable) NSString *currency __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 #pragma mark - deprecated properties
 
