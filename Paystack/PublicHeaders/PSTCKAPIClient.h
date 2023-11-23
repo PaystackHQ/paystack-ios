@@ -78,7 +78,7 @@ typedef void (^PSTCKNotifyCompletionBlock)(void);
         onViewController:(nonnull UIViewController *)viewController
          didEndWithError:(nonnull PSTCKErrorCompletionBlock)errorCompletion
     didRequestValidation:(nonnull PSTCKTransactionCompletionBlock)beforeValidateCompletion
-   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion;
+   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 /// Charges a card using the Paystack API
 /// @param card  The user's card details. Cannot be nil
@@ -95,7 +95,7 @@ typedef void (^PSTCKNotifyCompletionBlock)(void);
     didRequestValidation:(nonnull PSTCKTransactionCompletionBlock)beforeValidateCompletion
        willPresentDialog:(nonnull PSTCKNotifyCompletionBlock)showingDialogCompletion
          dismissedDialog:(nonnull PSTCKNotifyCompletionBlock)dialogDismissedCompletion
-   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion;
+   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 - (void)      chargeCard:(nonnull PSTCKCardParams *)card
           forTransaction:(nonnull PSTCKTransactionParams *)transaction
@@ -103,8 +103,8 @@ typedef void (^PSTCKNotifyCompletionBlock)(void);
          didEndWithError:(nonnull PSTCKErrorCompletionBlock)errorCompletion
        willPresentDialog:(nonnull PSTCKNotifyCompletionBlock)showingDialogCompletion
          dismissedDialog:(nonnull PSTCKNotifyCompletionBlock)dialogDismissedCompletion
-   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion;
+   didTransactionSuccess:(nonnull PSTCKTransactionCompletionBlock)successCompletion __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
-- (void) setProcessingStatus:(Boolean)status;
+- (void) setProcessingStatus:(Boolean)status __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios")));
 
 @end
