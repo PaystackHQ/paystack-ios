@@ -178,7 +178,7 @@ GEM
     mutex_m (0.2.0)
     nanaimo (0.3.0)
     naturally (2.2.1)
-    nokogiri (1.15.4)
+    nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     optparse (0.1.1)
