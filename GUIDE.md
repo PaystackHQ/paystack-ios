@@ -45,7 +45,11 @@ We publish our SDK as a static framework that you can copy directly into your ap
 
 We recommend using [CocoaPods](https://cocoapods.org/) to install the Paystack iOS library, since it makes it easy to keep your app's dependencies up to date.
 
-If you haven't set up Cocoapods before, their site has installation instructions. Then, add pod 'Paystack' to your Podfile, and run pod install.
+If you haven't set up Cocoapods before, their site has installation instructions. Then, add 
+```
+pod 'Paystack' 
+```
+to your Podfile, and run pod install.
 
 (Don't forget to use the .xcworkspace file to open your project in Xcode, instead of the .xcodeproj file, from here on out.)
 
