@@ -1,66 +1,90 @@
-# Paystack iOS SDK
-<!-- [![Travis](https://img.shields.io/travis/paystackhq/paystack-ios/master.svg?style=flat)](https://travis-ci.org/paystackhq/paystack-ios) -->
+# Paystack iOS SDK (legacy)
 [![CocoaPods](https://img.shields.io/cocoapods/v/Paystack.svg?style=flat)](https://cocoapods.org/pods/Paystack)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/l/Paystack.svg?style=flat)](https://github.com/paystackhq/paystack-ios/blob/master/LICENSE)
 [![CocoaPods](https://img.shields.io/cocoapods/p/Paystack.svg?style=flat)](https://github.com/paystackhq/paystack-ios#)
 
-The Paystack iOS SDK make it easy to collect your users' credit card details inside your iOS app. By charging the card immediately on our
-servers, Paystack handles the bulk of PCI compliance by preventing sensitive card data from hitting your server.
+> **This SDK is deprecated.** It receives maintenance fixes only. New integrations should use the new Paystack iOS SDK:
+> **https://github.com/PaystackHQ/paystack-sdk-ios**. The `chargeCard` methods and other key APIs carry a deprecation warning pointing there.
+> The warnings are warnings only: your app keeps building unless you treat warnings as errors.
 
-This library helps collect card details on iOS, completing a charge. This shoulders the burden of PCI compliance by helping you avoid the 
-need to send card data directly to your server. Instead you send to Paystack's server and get a reference which you can verify in your 
-server-side code. The verify call returns an `authorization_code`. Subsequent charges can then be made using the `authorization_code`.
+> **CocoaPods trunk stops accepting new versions on 2 December 2026.** CocoaPods is moving its central Specs repo to read-only.
+> Versions already published stay installable with `pod install`, but no new versions can be published after that date.
+> See the CocoaPods announcement: [CocoaPods Specs Repo](https://blog.cocoapods.org/CocoaPods-Specs-Repo/).
+> To keep getting updates, move to the [new SDK](https://github.com/PaystackHQ/paystack-sdk-ios), which supports Swift Package Manager.
 
+The Paystack iOS SDK makes it easy to collect your users' card details inside your iOS app and charge them on Paystack's servers,
+so sensitive card data never touches your server. You get a transaction reference back, which you verify from your server-side code.
+
+## What's new in 3.1.0
+
+- **Requery by access code.** Status checks now call `charge/requery/{access_code}`, using the access code you pass in
+  `PSTCKTransactionParams.access_code`. Charges started without an access code temporarily fall back to the transaction id. That fallback
+  will be removed in a future release, so initialize transactions on your server and always pass `access_code`.
+- **Pending charges are polled.** A `pending` status is checked again every 5 seconds, up to 12 times (60 seconds), then the charge ends with
+  an error that includes the reference so you can verify it on your server.
+- **Public key on every request.** `Authorization: Bearer <public key>` and `Paystack-Version` (the SDK version) are now sent on every call,
+  including the address-verification lookup. Changing `publicKey` on a client takes effect on the next request.
+- **Fixes:** a second `chargeCard` call while one is running no longer overwrites the running charge's callbacks; crashes on a missing
+  transaction id and on non-UTF-8 responses are fixed; the address-verification lookup always completes.
+- **Build updates:** minimum iOS raised to 15.0; builds with current Xcode. See [Requirements](#requirements).
+
+No public API changed. See the [CHANGELOG](CHANGELOG) for the full list.
 
 ## Requirements
-Our SDK is compatible with iOS apps supporting iOS 8.0 and above. It requires Xcode 8.0+ to build the source.
 
-**You will also need to add Keychain Sharing entitlements for your app.**
+| | Minimum |
+| --- | --- |
+| iOS deployment target | **15.0** (was 11.0). Apps supporting older iOS versions should stay on 3.0.17 |
+| Xcode | **Xcode 26** or later (latest stable recommended) |
+| Swift | 5.0 |
+| Entitlements | **Keychain Sharing** must be enabled for your app (the SDK uses the keychain to encrypt card data) |
+
+Building with the current iOS SDK also requires your app to use the **UIScene life cycle**: apps without a scene manifest fail to launch
+with "UIScene life cycle is required for apps built with this SDK". The example app shows the setup (`SceneDelegate` in `AppDelegate.swift`
+and `UIApplicationSceneManifest` in `Info.plist`). See Apple's
+[Transitioning to the UIKit scene-based life cycle](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle).
 
 ## Integration
 
-We've written a [guide](GUIDE.md) that explains everything from installation, to charging cards and more.
+The [guide](GUIDE.md) covers installation, charging cards and handling each authentication step. In short:
+
+1. Your **server** calls [`transaction/initialize`](https://paystack.com/docs/api/transaction/#initialize) with your secret key and returns
+   `data.access_code` to the app.
+2. Your **app** sets the public key once: `Paystack.setDefaultPublicKey("pk_test_…")`.
+3. Your **app** sets `transactionParams.access_code` and calls `PSTCKAPIClient.shared().chargeCard(…)`. The SDK handles PIN, OTP, 3DS and
+   address verification.
+4. Your **server** verifies the returned reference with [`transaction/verify`](https://paystack.com/docs/api/transaction/#verify) before
+   giving value.
 
 ## Example app
 
-There is an example app included in the repository:
-- Paystack iOS Example shows a minimal Swift integration with our iOS SDK using PSTCKPaymentCardTextField, a native credit card UI form component we provide. It uses a small example backend to make charges.
+`Example/Paystack iOS Example` is a minimal Swift integration using `PSTCKPaymentCardTextField`. It **doesn't need a backend**: it charges
+with a public key and an access code that you paste into `ViewController.swift`.
 
-To build and run the example apps, open `Paystack.xcworkspace` and choose the appropriate scheme.
+1. Get your **test** public key from the [Paystack Dashboard](https://dashboard.paystack.com/#/settings/developer).
+2. Initialize a test transaction with your **test** secret key (for example with `curl` against `transaction/initialize`) and copy
+   `data.access_code`.
+3. In `ViewController.swift`, set `paystackPublicKey` (under `// set Public key here`) and `accessCode` (under `// set access code here`).
+4. Open `Paystack.xcworkspace`, choose the example scheme and run.
 
-### Getting started with the Simple iOS Example App
+Access codes are single-use: initialize a new transaction for each test charge. The key and the access code must be from the same mode
+(test or live). Don't commit real keys or access codes.
 
-Note: The example app requires Xcode 8.0 to build and run.
+### Making a test charge
 
-Before you can run the app, you need to provide it with your Paystack public key.
-
-1. If you haven't already, sign up for a [Paystack account](https://dashboard.paystack.com/#/signup) (it takes seconds). Then go to https://dashboard.paystack.co/#/settings/developer.
-2. Replace the `paystackPublicKey` constant in ViewController.swift (for the Sample app) with your Test Public Key.
-3. Head to https://github.com/paystackhq/sample-charge-card-backend and click "Deploy to Heroku" (you may have to sign up for a Heroku account as part of this process). Provide your Paystack test secret key for the `PAYSTACK_TEST_SECRET_KEY` field under 'Env'. Click "Deploy for Free".
-4. Replace the `backendURLString` variable in the example iOS app with the app URL Heroku provides you with (e.g. "https://my-example-app.herokuapp.com") **WITHOUT THE TRAILING '/'**
-
-### Making a test Charge
-
-After completing the steps required above, you can (and should) test your implementation of the Paystack iOS library in your iOS app. You need the details of an actual debit/credit card to do this, so we provide ##_test cards_## for your use instead of using your own debit/credit cards. 
-
-You will find test cards on [this Paystack documentation page](https://developers.paystack.co/docs/test-cards).
-
-To try out the OTP flow, we have provided a test "verve" card:
+Use Paystack's [test cards](https://paystack.com/docs/payments/test-payments/) instead of a real card. To try the PIN + OTP flow:
 
 ```
-50606 66666 66666 6666
+5060 6666 6666 6666 666
 CVV: 123
 PIN: 1234
-TOKEN: 123456
+OTP: 123456
 ```
 
-You can then view the payments in your Paystack Dashboard!
+You can then see the payments in your Paystack Dashboard.
 
-## Misc. notes
+## Handling errors
 
-### Handling errors
-
-See [PaystackError.h](https://github.com/paystackhq/paystack-ios/blob/master/Paystack/PublicHeaders/PaystackError.h) for a list of error codes that may be returned from the Paystack API.
-
-
+See [PaystackError.h](Paystack/PublicHeaders/PaystackError.h) for the error codes the SDK can return, for example
+`PSTCKExpiredAccessCodeError` when an access code has already been used, and `PSTCKConflictError` when a charge is started while another
+is in progress.

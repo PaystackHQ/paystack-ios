@@ -115,6 +115,7 @@
 		04415C651A6605B5001225ED /* PSTCKToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CDB4CD1A5F30A700B854EE /* PSTCKToken.m */; };
 		04415C661A6605B5001225ED /* PaystackError.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CDB4CF1A5F30A700B854EE /* PaystackError.m */; };
 		04415C671A6605B5001225ED /* PSTCKAPIClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CDB51E1A5F3A9300B854EE /* PSTCKAPIClientTest.m */; };
+		A1B2C3D4E5F6071829304A5C /* PSTCKChargeRequeryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6071829304A5B /* PSTCKChargeRequeryTest.m */; };
 		04415C701A6605B5001225ED /* PSTCKTokenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CDB5271A5F3A9300B854EE /* PSTCKTokenTest.m */; };
 		04415C721A6605D9001225ED /* Paystack.h in Headers */ = {isa = PBXBuildFile; fileRef = 04CDB4A91A5F30A700B854EE /* Paystack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04415C7F1A6605D9001225ED /* PSTCKAPIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04CDB4C21A5F30A700B854EE /* PSTCKAPIClient.h */; };
@@ -402,6 +403,7 @@
 		04CDB4CE1A5F30A700B854EE /* PaystackError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaystackError.h; path = PublicHeaders/PaystackError.h; sourceTree = "<group>"; };
 		04CDB4CF1A5F30A700B854EE /* PaystackError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaystackError.m; sourceTree = "<group>"; };
 		04CDB51E1A5F3A9300B854EE /* PSTCKAPIClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTCKAPIClientTest.m; sourceTree = "<group>"; };
+		A1B2C3D4E5F6071829304A5B /* PSTCKChargeRequeryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTCKChargeRequeryTest.m; sourceTree = "<group>"; };
 		04CDB5271A5F3A9300B854EE /* PSTCKTokenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTCKTokenTest.m; sourceTree = "<group>"; };
 		04CDE5B41BC1F1F100548833 /* PSTCKCardParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTCKCardParams.m; sourceTree = "<group>"; };
 		04CDE5BB1BC1F21500548833 /* PSTCKCardParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSTCKCardParams.h; path = PublicHeaders/PSTCKCardParams.h; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 			isa = PBXGroup;
 			children = (
 				04CDB51E1A5F3A9300B854EE /* PSTCKAPIClientTest.m */,
+				A1B2C3D4E5F6071829304A5B /* PSTCKChargeRequeryTest.m */,
 				0438EF4A1B741B0100D506CC /* PSTCKCardValidatorTest.m */,
 				045A62AA1B8E7259000165CE /* PSTCKPaymentCardTextFieldTest.m */,
 				0438EF4B1B741B0100D506CC /* PSTCKPaymentCardTextFieldViewModelTest.m */,
@@ -1176,6 +1179,7 @@
 				08C260AF1E9C214A002AE28C /* PSTCKAuthViewController.m in Sources */,
 				04415C661A6605B5001225ED /* PaystackError.m in Sources */,
 				04415C671A6605B5001225ED /* PSTCKAPIClientTest.m in Sources */,
+				A1B2C3D4E5F6071829304A5C /* PSTCKChargeRequeryTest.m in Sources */,
 				0438EF361B7416BB00D506CC /* PSTCKPaymentCardTextField.m in Sources */,
 				04415C701A6605B5001225ED /* PSTCKTokenTest.m in Sources */,
 			);
@@ -1353,9 +1357,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.0.17;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paystack.paystack-ios";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1372,9 +1376,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.0.17;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paystack.paystack-ios";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;

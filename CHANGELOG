@@ -1,3 +1,19 @@
+=== 3.1.0 2026-10-21
+
+* This SDK is deprecated in favour of https://github.com/PaystackHQ/paystack-sdk-ios. All deprecation messages, including PSTCKCard.fingerprint and the PSTCKCard setters, now point to the new SDK. They remain warnings, not errors
+* CocoaPods trunk stops accepting new podspecs on 2 December 2026 (https://blog.cocoapods.org/CocoaPods-Specs-Repo/). Existing versions stay installable, but no new versions of this pod can be published after that date; move to the new SDK for future updates
+* Requires iOS 15.0+ and Xcode 26 or later. Apps built with the current iOS SDK must adopt the UIScene life cycle (the Example app shows how)
+* Example app no longer needs a backend: set paystackPublicKey and accessCode in ViewController.swift
+* Raise minimum iOS deployment target to 15.0 (SDK, tests, Example and podspec); required to build with current Xcode
+* Stop treating compiler warnings as errors in the iOS SDK and test targets so the deprecated Security padding APIs in PSTCKRSA compile
+* Requery now uses charge/requery/{access_code}. The access code from PSTCKTransactionParams.access_code is stored for the whole charge
+* Charges started without an access code temporarily fall back to charge/requery/{trans}; this will be removed in a future release, so initialize transactions on your server (transaction/initialize) and pass access_code
+* Requery polls every 5s while the status is pending, up to 12 times (60s), then ends with an error; success, failed and error statuses end the charge immediately
+* Authorization: Bearer <public key> and Paystack-Version (the SDK version, e.g. 3.1.0) are now set on every request, including the address verification states lookup; changing publicKey after init now takes effect on the next request
+* A second chargeCard call while a charge is in progress no longer overwrites the running charge's callbacks; optional callbacks are reset per charge
+* Fix crashes when requerying without a transaction id and when a response body is not valid UTF-8
+* fetchStates now URL-encodes the country and always calls its completion
+
 === 3.0.13 2019-11-4
 
 * Updates deprecated class UIWebView to WKWebView

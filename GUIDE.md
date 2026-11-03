@@ -1,5 +1,13 @@
 # Guide
 
+> **This SDK is deprecated.** New integrations should use the new Paystack iOS SDK: https://github.com/PaystackHQ/paystack-sdk-ios.
+>
+> **CocoaPods trunk stops accepting new versions on 2 December 2026** ([announcement](https://blog.cocoapods.org/CocoaPods-Specs-Repo/)).
+> Existing versions of this pod stay installable, but no new versions can be published after that date.
+>
+> Requirements: iOS 15.0+, Xcode 26 or later, Keychain Sharing entitlement. Always pass an `access_code` from your server's
+> `transaction/initialize` call: charges without one will stop working in a future release.
+
 If you want to build mobile apps like [Taxify](http://www.taxify.eu), [Afro](http://www.getafrocab.com), [Okada Books](https://www.okadabooks.com) and enable people to make purchases directly in your app, our iOS and [Android](https://github.com/PaystackHQ/paystack-android) libraries can help.
 
 Accepting payments in your app after collecting card information can be achieved by charging the card with our SDK. Reusable `authorization code`s from such transaction from can be used from your backend to charge the cards directly.
@@ -46,6 +54,10 @@ We publish our SDK as a static framework that you can copy directly into your ap
 We recommend using [CocoaPods](https://cocoapods.org/) to install the Paystack iOS library, since it makes it easy to keep your app's dependencies up to date.
 
 If you haven't set up Cocoapods before, their site has installation instructions. Then, add pod 'Paystack' to your Podfile, and run pod install.
+
+> **Note:** CocoaPods trunk becomes read-only on 2 December 2026 ([announcement](https://blog.cocoapods.org/CocoaPods-Specs-Repo/)).
+> `pod install` keeps working for versions already published, but this pod won't receive new versions through CocoaPods after
+> that date. Plan your move to the [new SDK](https://github.com/PaystackHQ/paystack-sdk-ios), which supports Swift Package Manager.
 
 (Don't forget to use the .xcworkspace file to open your project in Xcode, instead of the .xcodeproj file, from here on out.)
 
