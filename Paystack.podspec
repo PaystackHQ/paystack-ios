@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                           = 'Paystack'
-  s.version                        = '3.0.17'
+  s.version                        = '3.1.0'
   s.summary                        = 'Paystack is a web-based API helping African Businesses accept payments online.'
   s.description                    = <<-DESC
    Paystack makes it easy for African Businesses to accept Mastercard, Visa and Verve cards from anyone, anywhere in the world.
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.ios.weak_frameworks            = 'PassKit', 'AddressBook'
   s.requires_arc                   = true
   s.default_subspecs               = 'Core'
-  s.ios.deployment_target          = '11.0'
+  s.ios.deployment_target          = '15.0'
   s.swift_versions = '5.0'
 
 

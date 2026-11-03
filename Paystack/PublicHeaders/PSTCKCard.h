@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, PSTCKCardFundingType) {
  *  A proxy for the card's number, this uniquely identifies the credit card and can be used to compare different cards.
  *  @deprecated This field will no longer be present in responses when using your public key. If you want to access the value of this field, you can look it up on your backend using your secret key.
  */
-@property (nonatomic, readonly, nullable) NSString *fingerprint __attribute__((deprecated("This field will no longer be present in responses when using your public key. If you want to access the value of this field, you can look it up on your backend using your secret key.")));
+@property (nonatomic, readonly, nullable) NSString *fingerprint __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios (this field is not returned when using your public key; look it up on your backend with your secret key)")));
 
 /**
  *  Two-letter ISO code representing the issuing country of the card.
@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, PSTCKCardFundingType) {
 
 #pragma mark - deprecated properties
 
-#define DEPRECATED_IN_FAVOR_OF_PSTCKCARDPARAMS __attribute__((deprecated("For collecting your users' credit card details, you should use an PSTCKCardParams object instead of an PSTCKCard.")))
+#define DEPRECATED_IN_FAVOR_OF_PSTCKCARDPARAMS __attribute__((deprecated("This SDK has been deprecated, Please refer to our new SDK: https://github.com/PaystackHQ/paystack-sdk-ios (to collect card details in this SDK, use PSTCKCardParams instead of PSTCKCard)")))
 
 @property (nonatomic, copy, nullable) NSString *number DEPRECATED_IN_FAVOR_OF_PSTCKCARDPARAMS;
 @property (nonatomic, copy, nullable) NSString *cvc DEPRECATED_IN_FAVOR_OF_PSTCKCARDPARAMS;

@@ -9,14 +9,16 @@ import Paystack
 class ViewController: UIViewController, PSTCKPaymentCardTextFieldDelegate {
     
     // MARK: REPLACE THESE
-    // Replace these values with your application's keys
-    // Find this at https://dashboard.paystack.co/#/settings/developer
-    let paystackPublicKey = ""
-    // let paystackPublicKey = "pk_live_ed8a7004bb85bf636a0a22c635ad9d1788caa5de"
-    
-    // To set this up, see https://github.com/PaystackHQ/sample-charge-card-backend
-    let backendURLString = ""
-    // let backendURLString = "https://calm-scrubland-33409.herokuapp.com"
+    // This sample runs without a backend: it charges with a hard-coded public key and access code.
+    // Find your public key at https://dashboard.paystack.co/#/settings/developer
+    // set Public key here
+    let paystackPublicKey = "public_key"
+
+    // set access code here
+    // Get one from a transaction/initialize call (response `data.access_code`) made with your secret key,
+    // in the same mode (test/live) as the public key. Access codes are single-use: initialize a new
+    // transaction for each test charge.
+    let accessCode = "access_code"
     
     let card : PSTCKCard = PSTCKCard()
     
@@ -74,13 +76,12 @@ class ViewController: UIViewController, PSTCKPaymentCardTextFieldDelegate {
         
         if cardDetailsForm.isValid {
             
-            if backendURLString != "" {
-                fetchAccessCodeAndChargeCard()
+            // Make sure the access code has been set
+            if accessCode == "" {
+                showOkayableMessage("You need to set an access code.", message:"Initialize a transaction with your secret key and paste data.access_code into accessCode in ViewController.swift.")
                 return
             }
-            showOkayableMessage("Backend not configured", message:"To run this sample, please configure your backend.")
-//            chargeWithSDK(newCode:"");
-            
+            chargeWithSDK(accessCode: accessCode)
         }
         
     }
@@ -95,33 +96,10 @@ class ViewController: UIViewController, PSTCKPaymentCardTextFieldDelegate {
         }
     }
     
-    func fetchAccessCodeAndChargeCard(){
-        if let url = URL(string: backendURLString  + "/new-access-code") {
-            self.makeBackendRequest(url: url, message: "fetching access code", completion: { str in
-                self.outputOnLabel(str: "Fetched access code: "+str)
-                self.chargeWithSDK(newCode: str as NSString)
-            })
-        }
-    }
-    
-    func chargeWithSDK(newCode: NSString){
+    func chargeWithSDK(accessCode: String){
+        outputOnLabel(str: "Charging with access code " + accessCode)
         let transactionParams = PSTCKTransactionParams.init();
-        transactionParams.access_code = newCode as String;
-        //transactionParams.additionalAPIParameters = ["enforce_otp": "true"];
-//        transactionParams.email = "ibrahim@paystack.co";
-//        transactionParams.amount = 2000;
-//        let dictParams: NSMutableDictionary = [
-//            "recurring": true
-//        ];
-//        let arrParams: NSMutableArray = [
-//            "0","go"
-//        ];
-//        do {
-//            try transactionParams.setMetadataValueDict(dictParams, forKey: "custom_filters");
-//            try transactionParams.setMetadataValueArray(arrParams, forKey: "custom_array");
-//        } catch {
-//            print(error)
-//        }
+        transactionParams.access_code = accessCode;
         // use library to create charge and get its reference
         PSTCKAPIClient.shared().chargeCard(self.cardDetailsForm.cardParams, forTransaction: transactionParams, on: self, didEndWithError: { (error, reference) in
             self.outputOnLabel(str: "Charge errored")
@@ -140,7 +118,6 @@ class ViewController: UIViewController, PSTCKPaymentCardTextFieldDelegate {
                     if let reference=reference {
                         self.showOkayableMessage("An error occured while completing "+reference, message: errorString)
                         self.outputOnLabel(str: reference + ": " + errorString)
-                        self.verifyTransaction(reference: reference)
                     } else {
                         self.showOkayableMessage("An error occured", message: errorString)
                         self.outputOnLabel(str: errorString)
@@ -160,41 +137,10 @@ class ViewController: UIViewController, PSTCKPaymentCardTextFieldDelegate {
         }) { (reference) in
             self.outputOnLabel(str: "succeeded: " + reference)
             self.chargeCardButton.isEnabled = true;
-            self.verifyTransaction(reference: reference)
+            // Verify on your server before giving value:
+            // GET https://api.paystack.co/transaction/verify/<reference> with your secret key.
+            self.outputOnLabel(str: "verify " + reference + " on your server (transaction/verify)")
         }
         return
-    }
-    
-    func verifyTransaction(reference: String){
-        if let url = URL(string: backendURLString  + "/verify/" + reference) {
-            makeBackendRequest(url: url, message: "verifying " + reference, completion:{(str) -> Void in
-                self.outputOnLabel(str: "Message from paystack on verifying " + reference + ": " + str)
-            })
-        }
-    }
-    
-    func makeBackendRequest(url: URL, message: String, completion: @escaping (_ result: String) -> Void){
-        let session = URLSession(configuration: URLSessionConfiguration.default)
-        self.outputOnLabel(str: "Backend: " + message)
-        session.dataTask(with: url, completionHandler: { data, response, error in
-            let successfulResponse = (response as? HTTPURLResponse)?.statusCode == 200
-            if successfulResponse && error == nil && data != nil {
-                if let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
-                    completion(str as String)
-                } else {
-                    self.outputOnLabel(str: "<Unable to read response> while "+message)
-                    print("<Unable to read response>")
-                }
-            } else {
-                if let error = error {
-                    print(error.localizedDescription)
-                    self.outputOnLabel(str: error.localizedDescription)
-                } else {
-                    // There was no error returned though status code was not 200
-                    print("There was an error communicating with your payment backend.")
-                    self.outputOnLabel(str: "There was an error communicating with your payment backend while "+message)
-                }
-            }
-        }).resume()
     }
 }
